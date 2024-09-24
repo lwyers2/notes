@@ -32,6 +32,7 @@ let notes = [
 
   app.use(express.json())
   app.use(requestLogger)
+  app.use(express.static('dist'))
 
 
   const unkownEndpoint = (request, response) => {
@@ -98,6 +99,9 @@ let notes = [
  
 
 
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+const PORT = process.env.POST || 3001
+app.listen(PORT, () => {
+
+  console.log(`Server running on port ${PORT}`)
+
+})
