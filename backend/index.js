@@ -1,23 +1,20 @@
 const express = require('express')
 const app = express()
-
+require('dotenv').config();
+const Note = require('./models/note')
+const url = process.env.MONGODB_URI
 const mongoose = require('mongoose')
 
-const password = process.argv[2]
+console.log(`connecting to ${url}`)
 
-//DO NOT SAVE YOUR PASSWORD TO GITHUB!!!
-const url = 
-`mongodb+srv://lwyers2:${password}@cluster0.9u16o.mongodb.net/noteApp?retryWrites=true&w=majority&appName=Cluster0`
-
-mongoose.set('strictQuery', false)
 mongoose.connect(url)
+    .then(result => {
+        console.log("connected to MongoDB");
+    })
+    .catch(error => {
+        console.log('error connecting to MongoDB:', error.message);
 
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-})
-
-const Note = mongoose.model('Note', noteSchema)
+    })
 
 let notes = [
   {
@@ -63,7 +60,9 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 const generateId = () => {
