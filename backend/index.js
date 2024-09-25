@@ -1,6 +1,24 @@
 const express = require('express')
 const app = express()
 
+const mongoose = require('mongoose')
+
+const password = process.argv[2]
+
+//DO NOT SAVE YOUR PASSWORD TO GITHUB!!!
+const url = 
+`mongodb+srv://lwyers2:${password}@cluster0.9u16o.mongodb.net/noteApp?retryWrites=true&w=majority&appName=Cluster0`
+
+mongoose.set('strictQuery', false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
 let notes = [
   {
     id: 1,
