@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --test",
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env NODE_ENV=test node --test",
     "build:ui": "rm -rf dist && cd ../frontend && npm run build && cp -r dist ../backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && guit push",
     "lint": "eslint ."
@@ -22,8 +22,10 @@
   "devDependencies": {
     "@eslint/js": "^9.11.1",
     "@stylistic/eslint-plugin-js": "^2.8.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9.11.1",
     "globals": "^15.9.0",
-    "nodemon": "^3.0.3"
+    "nodemon": "^3.0.3",
+    "supertest": "^7.0.0"
   }
 }
